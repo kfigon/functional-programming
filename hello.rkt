@@ -9,7 +9,7 @@
         6))
 
 (printf "variable:\n")
-; variable
+; variable. Not evaluated, this is special form
 (define myvar 5)
 (+ myvar 2)
 
@@ -37,6 +37,9 @@
   (if (< x 0) 
       (- x)
       x))
+; (and a b c d e)
+; (or a b c d e)
+; (not a)
 
 (abs2 4)
 (abs2 (- 1))
