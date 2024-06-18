@@ -57,3 +57,56 @@ some-v
 ; 1.6
 ; infinite loop. if is lazy and does not evaluate the expression that got false
 ; Since new-if is a function, and not a special form, each parameter subexpression will be evaluated before the procedure is applied
+
+
+; 1.7
+(define (improve-guess v guess)
+    (define quotient (/ v guess))
+    (/ (+ quotient guess) 2))
+
+; get previous result
+(define (good-enough2? prev guess)
+    (< 
+       (abs (- prev guess))
+       0.001))
+
+(define (sqrt-iter v guess)
+   (define next (improve-guess v guess))
+    (if
+        (good-enough2? guess next) 
+        next
+        (sqrt-iter v (improve-guess v guess))))
+
+(define (sqrt v) (sqrt-iter v 1.0))
+
+
+(sqrt 0.00000000123)
+(sqrt 0.0001)
+(sqrt 2)
+(sqrt 9)
+(sqrt 100000000000000000)
+
+; 1.8 - cube root
+(define (cube-root v) (cube-iter v 1.0))
+
+(define (good-enough3? x guess)
+   (< 
+      (abs (- x (* guess guess guess)))
+      0.001))
+
+(define (cube-iter x guess)
+   (if
+      (good-enough3? x guess)
+      guess
+      (cube-iter x (foo guess x))))
+
+(define (foo guess x) 
+   (/ (+ (/ x (* guess guess))
+         (* 2 guess))
+      3))
+
+
+(printf "\n")
+
+(cube-root 8) ; 2
+(cube-root 27) ; 3

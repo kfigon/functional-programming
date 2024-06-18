@@ -18,8 +18,9 @@
 
 (define (sqrt v) (sqrt-iter v 1.0))
 
+; (sqrt 0.00000000123) ; wrong
 (sqrt 0.0001)
 (sqrt 2)
 (sqrt 9)
-(sqrt 100000000000)
+; (sqrt 100000000000000000) ; to long
 
