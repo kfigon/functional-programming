@@ -51,4 +51,9 @@ some-v
 
 ; p is recursive. WHen this is called on  applicative-order evaluation  interpreter, it's infinite loop
 ; when it's normal (lazy eval), it's called just fine
-(test 0 (p))
+; (test 0 (p))
+
+
+; 1.6
+; infinite loop. if is lazy and does not evaluate the expression that got false
+; Since new-if is a function, and not a special form, each parameter subexpression will be evaluated before the procedure is applied
