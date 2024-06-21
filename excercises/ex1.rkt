@@ -110,3 +110,51 @@ some-v
 
 (cube-root 8) ; 2
 (cube-root 27) ; 3
+
+; 1.9
+(define (inc a) (+ a 1))
+(define (dec a) (- a 1))
+
+; recursive
+(define (pluz a b)
+  (if (= a 0)
+      b
+      (inc (pluz (dec a) b))))
+; (pluz 4 1)
+; (inc (pluz 4 1)
+; (inc ((inc (pluz 3 1)) 1))
+; (inc ((inc (inc (pluz 2 1))) 1))
+; (inc ((inc (inc (inc (pluz 1 1))))) 1))
+
+; iterative
+(define (pluz2 a b)
+  (if (= a 0)
+      b
+      (pluz2 (dec a) (inc b))))
+
+; (pluz2 4 1)
+; (pluz2 3 2)
+; (pluz2 2 3)
+; (pluz2 1 4)
+; (pluz2 0 5)
+
+; 1.10
+(define (A x y)
+  (cond ((= y 0) 0)
+        ((= x 0) (* 2 y))
+        ((= y 1) 2)
+        (else (A (- x 1)
+                 (A x (- y 1))))))
+
+(A 1 10)
+; (A 1 10)
+; ((A 0 (A 1 9)))
+; ((A 0 (A 0 (A 1 8))))
+; ((A 0 (A 0 (A 0 (A 1 7))))))
+; ((A 0 (A 0 (A 0 (A 0 (A 1 6))))))) ...
+(A 2 4)
+(A 3 3)
+
+(define (f n) (A 0 n)) ; f(n) = 2n
+(define (g n) (A 1 n)) ; g(n) = 2^n
+(define (h n) (A 2 n)) ; h(n) = 2^2^2^2...
