@@ -29,3 +29,14 @@
         (+ (fibo (- n 1))
             (fibo (- n 2)))))
 
+(define (fibo-iter n)
+    (define (it a b i) 
+        (if (>= i n) b
+            (it b (+ a b) (+ i 1))))
+    (if (< n 2)
+        n
+        (it 0 1 1)))
+
+(printf "fibo iter:\n")
+(fibo-iter 8) ;21
+(fibo-iter 9) ;34
