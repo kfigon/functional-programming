@@ -20,3 +20,12 @@
 
 (factorial 80)
 (factorial-iter 80)
+
+
+; this is tree recursion - it calls the same function multiple times and spreads. Some calculations can be performed
+; multiple times here
+(define (fibo n)
+    (if (<= n 1) n
+        (+ (fibo (- n 1))
+            (fibo (- n 2)))))
+
