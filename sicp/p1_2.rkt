@@ -40,3 +40,28 @@
 (printf "fibo iter:\n")
 (fibo-iter 8) ;21
 (fibo-iter 9) ;34
+
+(printf "coin exchange:\n")
+
+(define (coin-exchange amount)
+    (define (cc amount coins)
+        (cond 
+            ((= amount 0) 1)
+            ((< amount 0) 0)
+            ((<= coins 0) 0)
+            (else (+ 
+                    (cc amount (- coins 1))                  ; we didn't use given coin
+                    (cc (- amount (get-coin coins)) coins))))) ; we used given coin
+    (cc amount 5))
+
+; we don't know arrays yet, function to simulate it
+(define (get-coin idx)
+    (cond 
+        ((= idx 1) 1)
+        ((= idx 2) 2)
+        ((= idx 3) 5)
+        ((= idx 4) 10)
+        ((= idx 5) 20)))
+
+
+(coin-exchange 61)
