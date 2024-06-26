@@ -158,3 +158,36 @@ some-v
 (define (f n) (A 0 n)) ; f(n) = 2n
 (define (g n) (A 1 n)) ; g(n) = 2^n
 (define (h n) (A 2 n)) ; h(n) = 2^2^2^2...
+
+
+; 1.11
+; f(n) = n if n<3
+; f(n) = f(n - 1) + 2f(n - 2) + 3f(n - 3) if n >= 3.
+; f 0 = 0
+; f 1 = 1
+; f 2 = 2
+; f 3 = f2 + 2f1 + 3f0 = 2 + 2 + 0= 4
+; f 4 = f3 + 2f2 + 3f1 = 4 + 4 + 3 = 11
+; f 5 = f4 + 2f3 + 3f2 = 11 + 8 + 6 = 25
+; f 6 = f5 + 2f4 + 3f3 = 25 + 22 + 12 = 59
+(define (fn-rec n)
+   (if
+      (< n 3) 
+      n
+      (+ 
+         (fn-rec (- n 1))
+         (* 2 (fn-rec (- n 2)))
+         (* 3 (fn-rec (- n 3))))))
+
+(define (fn-iter n)
+   (define (it n-1 n-2 n-3 i)
+      (define next-v (+ n-1 (* 2 n-2) (* 3 n-3)))
+      (if 
+         (= i n) 
+         next-v
+         (it next-v n-1 n-2 (+ i 1))))
+   (it 2 1 0 3))
+   
+(printf "fn\n")
+(fn-rec 25)
+(fn-iter 25)
