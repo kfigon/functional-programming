@@ -196,3 +196,18 @@ some-v
 (fn-iter 25)
 
 ; 1.12
+(printf "pascal\n")
+(define (pascal-val r c)
+   (cond 
+      ((= r c) 1)
+      ((= c 0) 1)
+      ((or (< r 0) (< c 0)) 0)
+      (else 
+         (+ 
+            (pascal-val (- r 1) c)
+            (pascal-val (- r 1) (- c 1))))))
+
+(pascal-val 0 0)
+(pascal-val 1 0)
+(pascal-val 1 1)
+(pascal-val 2 0)
