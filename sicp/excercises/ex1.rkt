@@ -186,8 +186,13 @@ some-v
          (= i n) 
          next-v
          (it next-v n-1 n-2 (+ i 1))))
-   (it 2 1 0 3))
+   (if 
+      (< n 3) 
+      n
+      (it 2 1 0 3)))
    
 (printf "fn\n")
 (fn-rec 25)
 (fn-iter 25)
+
+; 1.12
