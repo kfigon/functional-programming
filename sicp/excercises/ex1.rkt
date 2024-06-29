@@ -277,3 +277,27 @@ some-v
 
 (new-sum 1 5)
 (new-product 1 5)
+
+; 1.33
+; filtered accumulate
+
+(define (filtered-accumulate filter accumulation term next zero-val a b)
+   (define (it r a)
+      (if (> a b) r
+          (it 
+            (accumulation r 
+                          (if (filter (term a)) (term a) zero-val))
+            (next a))))
+   (it zero-val a))
+
+(define (sum-even a b)
+   (filtered-accumulate
+      (lambda (x) (= (modulo x 2) 0))
+      (lambda (r x) (+ x r))
+      identity
+      inc
+      0
+      a 
+      b))
+
+(sum-even 1 5) ; 6
