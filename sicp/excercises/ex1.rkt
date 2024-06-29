@@ -211,3 +211,40 @@ some-v
 (pascal-val 1 0)
 (pascal-val 1 1)
 (pascal-val 2 0)
+
+; 1.31
+
+(define (product a b)
+   (define (it acc a)
+      (if 
+         (> a b) 
+         acc
+         (it (* acc a) (+ a 1)))
+      )
+   (it 1 a))
+
+(define (product-foo term next a b)
+   (define (it acc a)
+      (if 
+         (> a b) 
+         acc
+         (it (* acc (term a)) (next a))))
+   (it 1.0 a))
+
+(define (identity a) a)
+
+(define (fact a) (product-foo identity inc 1 a))
+
+(define (pi-approx-prod a)
+   (define (term i)
+      (* 
+         (/ (* 2 i) (- (* 2 i) 1))
+         (/ (* 2 i) (+ (* 2 i) 1))))
+      
+   (* 2 (product-foo term inc 1.0 a)))
+
+(product 1 5)
+(product-foo identity inc 1 5)
+(fact 8)
+
+(pi-approx-prod 150)
