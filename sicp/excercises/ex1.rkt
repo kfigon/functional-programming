@@ -248,3 +248,32 @@ some-v
 (fact 8)
 
 (pi-approx-prod 150)
+
+; 1.32
+; sum and producs as single abstraction
+(define (accumulate accumulation term next zero-val a b)
+   (define (it r a)
+      (if (> a b) r
+          (it (accumulation r (term a)) (next a))))
+   (it zero-val a))
+
+(define (new-sum a b) 
+   (accumulate 
+      (lambda (r x) (+ x r))
+      identity
+      inc
+      0
+      a
+      b))
+      
+(define (new-product a b) 
+   (accumulate 
+      (lambda (r x) (* x r))
+      identity
+      inc
+      1
+      a
+      b))
+
+(new-sum 1 5)
+(new-product 1 5)
