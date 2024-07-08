@@ -330,7 +330,7 @@ some-v
    (define (loop nth)
       (if 
          (>= nth n) 
-         (lambda (x) (fn x))
+         fn
          (lambda (x) (fn ((loop (+ nth 1)) x)))))
       
    (loop 1))
