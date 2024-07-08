@@ -327,13 +327,13 @@ some-v
 
 ; 1.43
 (define (repeated fn n)
-   (define (apply nth)
+   (define (loop nth)
       (if 
          (>= nth n) 
          (lambda (x) (fn x))
-         (fn (apply (+ nth 1)))))
+         (lambda (x) (fn ((loop (+ nth 1)) x)))))
       
-   (apply 1))
+   (loop 1))
 
 ((repeated inc 5) 2) ; 7
-((repeated square 5) 2) ; 2^2^5 = 625
+((repeated square 2) 5) ; 2^2^5 = 625
