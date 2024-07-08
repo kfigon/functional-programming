@@ -69,3 +69,7 @@
 ; (let ([a 1]
 ;       [b 3])
 ;       (+ a b 4)))
+
+(define a-pair (cons 1 2))
+(car a-pair) ; first element of pair
+(cdr a-pair) ; second
