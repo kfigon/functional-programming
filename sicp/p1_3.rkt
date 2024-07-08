@@ -51,6 +51,16 @@
     (let 
         ([x 4]
         [y 1])
-        (+ x y a)))
+        (+ x y a))) ; this couldn't be a new let, as it's using previous vars
+
+; vars can't be reused, as let is just syntactic sugar for lambda:
+; (let 
+;     ([a 4]
+;     [b 2])
+;     (+ a b))
+
+; ((lambda (a b)
+;     (+ a b)) 
+;     4 2)
 
 (foobarz 5)
