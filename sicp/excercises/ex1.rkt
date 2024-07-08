@@ -301,3 +301,8 @@ some-v
       b))
 
 (sum-even 1 5) ; 6
+
+
+; 1.34
+(define (f3 g) (g 2))
+; (f3 f3) ; it will fail to evaluate (2 2) is not a procedure

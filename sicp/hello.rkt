@@ -63,3 +63,9 @@
 (fizz-buzz2 5)
 (fizz-buzz2 15)
 (fizz-buzz2 2)
+
+; (lambda (a b) (+ a b))
+; let - to define many local variables instead of define
+; (let ([a 1]
+;       [b 3])
+;       (+ a b 4)))

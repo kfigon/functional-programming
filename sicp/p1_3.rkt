@@ -40,3 +40,17 @@
 
 (sum-it-foo 1 5)
 (sum-squares-foo 1 5)
+
+; lambdas
+; (lambda (a b c) (+ a b c))
+; (define (foo a b c) (+ a b c))
+; equivalent to (define foo (lambda (a b c) (+ a b c)))
+
+; testing let
+(define (foobarz a) 
+    (let 
+        ([x 4]
+        [y 1])
+        (+ x y a)))
+
+(foobarz 5)
