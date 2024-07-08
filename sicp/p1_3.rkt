@@ -52,6 +52,7 @@
         ([x 4]
         [y 1])
         (+ x y a))) ; this couldn't be a new let, as it's using previous vars
+(foobarz 5)
 
 ; vars can't be reused, as let is just syntactic sugar for lambda:
 ; (let 
@@ -63,4 +64,3 @@
 ;     (+ a b)) 
 ;     4 2)
 
-(foobarz 5)

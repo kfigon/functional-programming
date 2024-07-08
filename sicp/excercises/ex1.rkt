@@ -306,3 +306,34 @@ some-v
 ; 1.34
 (define (f3 g) (g 2))
 ; (f3 f3) ; it will fail to evaluate (2 2) is not a procedure
+
+
+; 1.41
+; (((double (double double)) inc) 5)
+(printf "\ndouble\n")
+(define (double fn) 
+   (lambda (x) (fn(fn x))))
+
+; it now adds 2
+((double inc) 3)
+
+(((double (double double)) inc) 5) ; 21
+
+; 1.42
+(define (compose f g)
+   (lambda (x) (f (g x))))
+
+((compose square inc) 6)
+
+; 1.43
+(define (repeated fn n)
+   (define (apply nth)
+      (if 
+         (>= nth n) 
+         (lambda (x) (fn x))
+         (fn (apply (+ nth 1)))))
+      
+   (apply 1))
+
+((repeated inc 5) 2) ; 7
+((repeated square 5) 2) ; 2^2^5 = 625
