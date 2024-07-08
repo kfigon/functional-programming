@@ -2,7 +2,7 @@
 
 ; library for ration numbers
 
-(define (make-rational a b) (cons a b)) 
+(define (make-rational a b) (cons a b)) ; this could be enhanced to use lower terms. Sign could also be normalized
 (define (num rat) (car rat))
 (define (denom rat) (cdr rat))
 
