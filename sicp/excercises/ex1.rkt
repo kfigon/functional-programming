@@ -337,3 +337,16 @@ some-v
 
 ((repeated inc 5) 2) ; 7
 ((repeated square 2) 5) ; 2^2^5 = 625
+
+; 1.44
+(define (smooth fn) 
+   (lambda (x)
+      (let ([dx 0.001])
+         (let 
+            ([low (fn (- x dx))]
+            [this (fn x)]
+            [high (fn (+ x dx))])
+            
+            (/ (+ low this high) 3)))))
+
+((smooth inc) 3.0)
