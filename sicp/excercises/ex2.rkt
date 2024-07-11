@@ -97,3 +97,20 @@
 (reverse (list 1 2 3))
 (reverse (list 1 2))
 (reverse (list 1))
+
+
+; 2.19
+; previous ex reiterated with any coin structure
+(define (currency-exchange amount coins)
+    (cond 
+          ((= amount 0) 1)
+          ((< amount 0) 0)
+          ((null? coins) 0)
+          (else (+ 
+                    (currency-exchange (- amount (car coins)) coins)
+                    (currency-exchange amount (cdr coins))))))
+
+
+(currency-exchange 100 (list 50 25 10 5 1))
+(currency-exchange 100 (list 100 50 20 10 5 2 1 0.5))
+
