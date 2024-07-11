@@ -114,3 +114,23 @@
 (currency-exchange 100 (list 50 25 10 5 1))
 (currency-exchange 100 (list 100 50 20 10 5 2 1 0.5))
 
+; 2.20
+(define (sum-them init . rest)
+    (define (run d acc)
+        (if (null? d) acc
+            (run (cdr d) (+ acc (car d)))))
+    (run rest init))
+
+(sum-them 3 1 2 3) ; 3 + 6
+
+(printf "\nsame parity\n")
+(define (same-parity first . rest)
+    (define (run tab results)
+        (cond 
+            ((null? tab) results)
+            ((= (modulo (car tab) 2) (modulo first 2)) (run (cdr tab) (cons (car tab) results)))
+            (else (run (cdr tab) results))))
+    (run rest (list first)))
+
+(same-parity 1 2 3 4 5 6 7) ;(1 3 5 7)
+(same-parity 2 3 4 5 6 7) ;(2 4 6)

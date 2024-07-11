@@ -73,3 +73,8 @@
 (define a-pair (cons 1 2))
 (car a-pair) ; first element of pair
 (cdr a-pair) ; second
+
+(newline)
+; variadic arguments - dot notation
+(define (foo a b . other) a)
+(foo 1 2 3 4 5 6) ; a =1, b = 2, c = (list 4 5 6)
