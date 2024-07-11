@@ -71,3 +71,16 @@
 
 ; todo: math... get a and b from the magic num
 ; (define (int-car x) x)
+
+(newline)
+; 2.17
+; return last element
+(define (last-pair aList)
+    (let ([next (cdr aList)])
+        (if (null? next) 
+            (car aList)
+            (last-pair next))))
+
+(last-pair (list 1 2 3 4))
+(last-pair (list 1))
+(last-pair (list 1 2))
