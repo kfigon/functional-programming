@@ -83,3 +83,12 @@
 (last-pair (list 1 2 3 4))
 (last-pair (list 1))
 (last-pair (list 1 2))
+
+(newline)
+; 2.18
+(define (reverse tab)
+    tab)
+
+(reverse (list 1 2 3 4))
+(reverse (list 1 2))
+(reverse (list 1))
