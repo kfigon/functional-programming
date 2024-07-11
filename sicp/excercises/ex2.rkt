@@ -29,3 +29,29 @@
 (let ([a (make-point 1.0 2.0)]
       [b (make-point 18.0 4.0)])
       (print-point (midpoint (make-segment a b))))
+
+
+; 2.4
+; alternative cons car
+(define (cons2 x y)
+    (lambda (m) (m x y))) ; return a function which takes another function (m) that is applied to x y
+    ; type pair func(func(int,int)int)int
+	; cons := func(a int, b int) pair {
+	; 	return func(selector func(int, int) int) int { return selector(a,b) }
+    ; }
+
+	; car := func(z pair) int {
+	; 	return z(func (a int, b int) int { return a })
+	; }
+
+	; cdr := func(z pair) int {
+	; 	return z(func (a int, b int) int { return b })
+	; }
+(define (car2 z)
+    (z (lambda (p q) p))) ; z is a function that takes 2 args and can return something
+
+(define (cdr2 z)
+    (z (lambda (p q) q)))
+
+(car2 (cons2 1 2))
+(cdr2 (cons2 1 2))
