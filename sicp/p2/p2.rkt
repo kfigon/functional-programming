@@ -51,13 +51,11 @@
 ; (cadr x) == (car (cdr x))
 
 (define (get-nth tab i)
-    (define (run tab ith)
-        (cond
-            ((null? tab) (error "can't get that element man"))
-            ((= ith 0) (car tab))
-            (else (run (cdr tab) (- ith 1)))))
-    (run tab i))
+    (if (= i 0) 
+        (car tab)
+        (get-nth (cdr tab) (- i 1))))
 
+(printf "\nget-nth\n")
 ; (null? aList) to check if it's empty
 (get-nth (list 1 2 3) 0) ; -> 1
 (get-nth (list 1 2 3) 1) ; -> 2
@@ -74,3 +72,8 @@
 (list-len null)
 (list-len (list 1))
 (list-len (list 1 2 3))
+
+
+; (define (append l1 l2)
+;     (if (null? l1) l2
+;         ))
