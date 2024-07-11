@@ -38,8 +38,39 @@
     (newline)
     (display (num x))
     (display "/")
-    (display (denom x)))
+    (display (denom x))
+    (newline))
 
 (print-rat (add-rat (make-rational 1 2) (make-rational 3 4)))
 (print-rat (add-rat (make-rational 1 3) (make-rational 1 3)))
 
+
+; compound structures using pairs - list
+; (cons 1 (cons 2 (cons 3 null))) == (list 1 2 3)
+; (car (cdr (cdr x))) will get us 3
+; (cadr x) == (car (cdr x))
+
+(define (get-nth tab i)
+    (define (run tab ith)
+        (cond
+            ((null? tab) (error "can't get that element man"))
+            ((= ith 0) (car tab))
+            (else (run (cdr tab) (- ith 1)))))
+    (run tab i))
+
+; (null? aList) to check if it's empty
+(get-nth (list 1 2 3) 0) ; -> 1
+(get-nth (list 1 2 3) 1) ; -> 2
+(get-nth (list 1 2 3) 2) ; -> 3
+; (get-nth (list 1 2 3) 3) ; -> err
+
+; can be also iterative of course
+(define (list-len tab) 
+    (if (null? tab) 
+        0
+        (+ 1 (list-len (cdr tab)))))
+
+(newline)
+(list-len null)
+(list-len (list 1))
+(list-len (list 1 2 3))

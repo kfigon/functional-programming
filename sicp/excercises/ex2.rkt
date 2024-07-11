@@ -55,3 +55,19 @@
 
 (car2 (cons2 1 2))
 (cdr2 (cons2 1 2))
+
+
+; 2.5
+; represent pairs of non neg integers as product 2^a*3^b
+
+(define (pow a b)
+    (define (run acc ith)
+        (if (= ith b) acc 
+            (run (* acc a) (+ ith 1))))
+    (run 1 0))
+
+(define (int-cons a b) 
+    (* (pow 2 a) (pow 3 b)))
+
+; todo: math... get a and b from the magic num
+; (define (int-car x) x)
