@@ -87,8 +87,13 @@
 (newline)
 ; 2.18
 (define (reverse tab)
-    tab)
+    (define (run tab result)
+        (if (null? tab) result
+            (run (cdr tab) (cons (car tab) result)))) ; go all the way down, then cons up
+    (run tab null))
+
 
 (reverse (list 1 2 3 4))
+(reverse (list 1 2 3))
 (reverse (list 1 2))
 (reverse (list 1))
