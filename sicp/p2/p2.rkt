@@ -74,6 +74,12 @@
 (list-len (list 1 2 3))
 
 
-; (define (append l1 l2)
-;     (if (null? l1) l2
-;         ))
+(define (append l1 l2)
+    (if (null? l1) l2
+        (cons (car l1) (append (cdr l1) l2))))
+
+(append (list 1 2 3) (list 4 5 6))
+(append (list 1) (list 2 3 4 5 6))
+(append null (list 1 2 3 4 5 6))
+(append (list 1 2 3 4 5) (list 6))
+(append (list 1 2 3 4 5 6) null)
