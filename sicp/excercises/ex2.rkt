@@ -74,11 +74,10 @@
 
 (newline)
 ; 2.17
-; return last element
+; return list with only the last element
 (define (last-pair aList)
     (let ([next (cdr aList)])
-        (if (null? next) 
-            (car aList)
+        (if (null? next) aList
             (last-pair next))))
 
 (last-pair (list 1 2 3 4))
