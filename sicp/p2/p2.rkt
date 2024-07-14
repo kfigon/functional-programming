@@ -83,3 +83,21 @@
 (append null (list 1 2 3 4 5 6))
 (append (list 1 2 3 4 5) (list 6))
 (append (list 1 2 3 4 5 6) null)
+
+(define (scale-list items factor)
+    (if (null? items) null
+        (cons (* 
+                factor (car items))
+                (scale-list (cdr items) factor))))
+
+(printf "\nscale-list\n")
+(scale-list (list 1 2 3 4 5) 5)
+
+(printf "\nmap\n")
+
+(define (map-list items fn)
+    (if (null? items) null
+        (cons (fn (car items)) 
+              (map-list (cdr items) fn))))
+
+(map-list (list 1 2 3 4 5) (lambda (x) (* x 5)))

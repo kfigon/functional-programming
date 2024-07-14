@@ -134,3 +134,44 @@
 
 (same-parity 1 2 3 4 5 6 7) ;(1 3 5 7)
 (same-parity 2 3 4 5 6 7) ;(2 4 6)
+
+; 2.21
+(define (square-list items)
+    (if (null? items) null
+        (cons (* (car items) (car items))
+              (square-list (cdr items)))))
+
+(define (map-list items fn)
+    (if (null? items) null
+        (cons (fn (car items))
+              (map-list (cdr items) fn))))
+
+(square-list (list 1 2 3 4))
+(map-list (list 1 2 3 4) (lambda (x) (* x x)))
+
+; 2.22
+; this is applying procedure backwards
+(define (square-list-iter items)
+    (define (run items result)
+        (if (null? items) result
+            (run (cdr items)
+                 (cons (* (car items) (car items))
+                       result))))
+    (run items null))
+    ; changing the order does not help because then we append list to a single items - not correct, should be item to a list
+
+(square-list-iter (list 1 2 3 4))
+
+; 2.23
+(define (for-eachx items fn)
+    (cond  ; if for some reason is not working , I can't figure out why
+        ((null? items) #t)
+        (else 
+            (fn (car items))
+            (for-eachx (cdr items) fn))))
+
+(for-eachx (list 1 2 3 4 5) 
+          (lambda (x) 
+                (newline)
+                (display x)))
+    
