@@ -217,3 +217,14 @@
 (fringe (list (list (list 1 2) (list 3 4))
               (list (list 1 2) (list 3 4)))) ; (1 2 3 4 1 2 3 4)
 
+
+(define a-tree (cons (list 1 2) (list 3 4)))
+
+; ex 2.31
+(define (map-tree2 tree fn)
+    (cond ((null? tree) null)
+          ((pair? tree) (cons (map-tree2 (car tree) fn) (map-tree2 (cdr tree) fn)))
+          (else (fn tree))))
+
+a-tree
+(map-tree2 a-tree (lambda (x) (* x 3)))
