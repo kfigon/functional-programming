@@ -201,3 +201,19 @@
 (deep-reverse (list (list 1 2) 3))
 (deep-reverse (list (list 1 2) (list 3 4)))  ;((4 3) (2 1))
 (deep-reverse (list (list 1 2) (list (list 3 4) 5)))
+
+; 2.28
+(newline)
+(define (fringe tree)
+    (define (iter x result)
+        (cond 
+              ((null? x) result)
+              ((pair? x) (iter (car x) (iter (cdr x) result))) ; go down to the right. Changing cdr and car order will reverse the order
+              (else (cons x result))))                         ; right leaf reached, append. It'll be in order when recursion unwinds
+    (iter tree null))
+
+
+(fringe (list (list 1 2) (list 3 4)))  ; (1 2 3 4)
+(fringe (list (list (list 1 2) (list 3 4))
+              (list (list 1 2) (list 3 4)))) ; (1 2 3 4 1 2 3 4)
+
