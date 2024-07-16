@@ -49,6 +49,7 @@
 ; (cons 1 (cons 2 (cons 3 null))) == (list 1 2 3)
 ; (car (cdr (cdr x))) will get us 3
 ; (cadr x) == (car (cdr x))
+; (pair? v) - to check if it's a pair
 
 (define (get-nth tab i)
     (if (= i 0) 

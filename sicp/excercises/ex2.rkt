@@ -175,3 +175,29 @@
                 (newline)
                 (display x)))
     
+; 2.25
+; extract 7s
+(car (cdr (car (cdr (cdr (list 1 3 (list 5 7) 9))))))
+(car (car (list (list 7))))
+(car (cdr (car (cdr (car (cdr (car (cdr (car (cdr (car (cdr (list 1 (list 2 (list 3 (list 4 (list 5 (list 6 7))))))))))))))))))
+
+; 2.26
+(define x (list 1 2 3))
+(define y (list 4 5 6))
+(cons x y) ; ((1 2 3) 4 5 6)
+(list x y) ; ((1 2 3) (4 5 6))
+
+; 2.27
+(newline)
+(define (deep-reverse x)
+    (define (run x result)
+        (cond 
+              ((null? x) result)
+              ((not (pair? (car x))) (run (cdr x) (cons (car x) result))) ; regular reverse
+              (else (run (cdr x) (cons (deep-reverse (car x)) result))))) ; reduce down - same as reverse, but deep-reverse head
+    (run x null))
+
+(deep-reverse (list 1 2 3))
+(deep-reverse (list (list 1 2) 3))
+(deep-reverse (list (list 1 2) (list 3 4)))  ;((4 3) (2 1))
+(deep-reverse (list (list 1 2) (list (list 3 4) 5)))
