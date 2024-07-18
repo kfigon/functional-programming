@@ -54,3 +54,26 @@
 (tree-len a-tree)
 (count-leaves a-tree)
 (count-leaves-2 a-tree)
+
+; 2.36
+; simple version to sum them by rows
+(define (foo vs)
+    (define (iter vs) (if (null? vs) 0 (+ (car vs) (iter (cdr vs)))))
+    (if (null? vs) null
+        (cons (iter (car vs)) (foo (cdr vs)))))
+
+(foo (list (list 1 2 3) 
+                        (list 4 5 6) 
+                        (list 7 8 9) 
+                        (list 10 11 12)))
+
+; now sum by columns
+(define (accumulate-n init op seqs)
+  (if (null? (car seqs)) null
+      (cons (reduce init op (map (lambda (x) (car x)) seqs)) ; take all firsts
+            (accumulate-n init op (map (lambda (x) (cdr x)) seqs))))) ; reduce down
+
+(accumulate-n 0 + (list (list 1 2 3) 
+                        (list 4 5 6) 
+                        (list 7 8 9) 
+                        (list 10 11 12))) ;(22 26 30)
