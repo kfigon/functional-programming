@@ -44,6 +44,13 @@
         ; (map (lambda (x) x) (flat-tree t)))) ; flattening can be also done in more clever way
         (flat-tree t)))
 
+(define (count-leaves-2 t)
+  (reduce 
+        0
+        +
+        (map (lambda (x) (if (not (pair? x)) 1 (count-leaves x))) t)))
+
 (define a-tree (cons (list 1 2) (list 3 (list 4 5))))
 (tree-len a-tree)
 (count-leaves a-tree)
+(count-leaves-2 a-tree)
