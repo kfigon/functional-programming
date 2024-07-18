@@ -77,3 +77,37 @@
                         (list 4 5 6) 
                         (list 7 8 9) 
                         (list 10 11 12))) ;(22 26 30)
+
+; 2.38
+; reduce == fold-right
+; it expands to the right and reduces then
+
+; fold-left is tail recursive and starts reduction from the left
+(newline)
+(define (fold-left init op xs)
+  (define (iter xs acc)
+    (if (null? xs) acc
+        (iter (cdr xs) (op (car xs) acc))))
+  (iter xs init))
+
+(define fold-right reduce)
+
+(fold-right 1 / (list 1 2 3))  ;3/2
+(fold-left 1 / (list 1 2 3))   ;3/2
+(fold-right null list (list 1 2 3))  ;'(1 (2 (3 ())))
+(fold-left null list (list 1 2 3))   ;'(3 (2 (1 ())))
+
+; 2.39
+(newline)
+(define (reverse-right sequence)
+  (define (append l1 l2)
+    (if (null? l1) l2
+        (cons (car l1) 
+              (append (cdr l1) l2))))
+  (fold-right null (lambda (x acc) (append acc (list x))) sequence))
+
+(define (reverse-left sequence)
+  (fold-left null (lambda (x acc) (cons x acc)) sequence))
+
+(reverse-right (list 1 2 3 4 5 6))
+(reverse-left (list 1 2 3 4 5 6))

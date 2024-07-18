@@ -102,3 +102,20 @@
               (map-list (cdr items) fn))))
 
 (map-list (list 1 2 3 4 5) (lambda (x) (* x 5)))
+
+
+(printf "\nleft/right maps\n")
+(define (process-left fn vs)
+  (define (iter vs result)
+    (if (null? vs) result
+        (cons (fn (car vs)) (iter (cdr vs) result))))
+  (iter vs null))
+
+(define (process-right fn vs)
+  (define (iter vs result)
+    (if (null? vs) result
+        (iter (cdr vs) (cons (fn (car vs)) result))))
+  (iter vs null))
+
+(process-left (lambda (x) (* x 2)) (list 1 2 3 4 5))
+(process-right (lambda (x) (* x 2)) (list 1 2 3 4 5))
