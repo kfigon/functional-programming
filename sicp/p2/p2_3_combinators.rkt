@@ -20,6 +20,18 @@
     (if (> low high) null
         (cons low (enumerate-num (+ low 1) high))))
 
+(define (enumerate-tree tree) ; fringe from exercises
+    (define (iter tree result)
+        (cond ((null? tree) result)
+              ((not (pair? tree)) (cons tree result))
+              (else (iter (car tree) (iter (cdr tree) result)))))
+
+    (iter tree null))
+
+(define a-list (list 1 2 3 (list 4 5) (list (list 6) 7)))
+(display a-list)
+(newline)
+(enumerate-tree a-list)
 (map (lambda (x) (* x 3)) (list 1 2 3 4 5 6))
 
 (define (even? v) (= (modulo v 2) 0))
