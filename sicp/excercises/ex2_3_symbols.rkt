@@ -22,3 +22,11 @@
 (equal? '(this is a list) '(this is a list)) ; #t
 (equal? '(this (is a) list) '(this (is a) list)) ; #t
 (equal? '(this is a list) '(this (is a) list)) ; #f
+
+; 2.55
+(car ''abracadabra) ; 'quote
+; because ' can equal a list
+; so car first is stripping the first ', then we got a 'abracadabra => quote
+
+; this is rewritten as
+; (car '(quote abracadabra))
