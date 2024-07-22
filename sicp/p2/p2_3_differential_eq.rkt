@@ -9,7 +9,13 @@
                                                   (multiplier exp))
                                     (make-product (deriv (multiplier exp) var)
                                                   (multiplicand exp))))
-           (else (error "unknown exp: " exp))))
+          ((and (exponentiation? exp) (number? (exponent exp)))
+                                    (make-product 
+                                        (make-product (exponent exp) 
+                                                      (make-exponentiation (base exp) 
+                                                                           (- (exponent exp) 1)))
+                                        (deriv (base exp) var)))
+          (else (error "unknown exp: " exp))))
 
 (define variable? symbol?)
 (define (same-variable? v1 v2)
@@ -51,3 +57,30 @@
 (deriv '(* x y) 'x) ; 'y
 (deriv '(* (* x y) (+ x 3)) 'x) ;(+ (* x y) (* y (+ x 3)))
 
+
+; ex 2.56
+(newline)
+(define (exponentiation? exp)
+    (and (pair? exp) 
+         (eq? (car exp) '**)))
+
+(define (base exp) 
+    (car (cdr exp)))
+
+(define (exponent exp) 
+    (car (cdr (cdr exp))))
+
+(define (pow a x)
+    (if (= x 0) 1
+        (* a (pow a (- x 1)))))
+
+(define (make-exponentiation a-base an-exponent)
+    (cond 
+        ((and (number? an-exponent) (= an-exponent 0)) 1)
+        ((and (number? an-exponent) (= an-exponent 1)) a-base)
+        ((and (number? a-base) (number? an-exponent)) (pow a-base an-exponent))
+        (else (list '** a-base an-exponent))))
+
+(deriv '(** x 1) 'x)
+(deriv '(** x 2) 'x)
+(deriv '(** x 3) 'x)
