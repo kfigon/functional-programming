@@ -2,7 +2,7 @@ package redbook.p1
 
 import org.scalatest.funspec.AnyFunSpec
 
-class DataStructuresSpec extends AnyFunSpec {
+class ListSpec extends AnyFunSpec {
   sealed trait AList[+A]
   case object Nil extends AList[Nothing]
   case class Cons[+A](head: A, tail: AList[A]) extends AList[A]
@@ -18,13 +18,13 @@ class DataStructuresSpec extends AnyFunSpec {
       case Cons(_, tail) => tail
     }
 
-    def setHead[A](x:A, xs: AList[A]): AList[A] = Cons(x, xs)
+    def setHead[A](x: A, xs: AList[A]): AList[A] = Cons(x, xs)
 
     def drop[A](num: Int, xs: AList[A]): AList[A] = {
       @scala.annotation.tailrec
       def run(xs: AList[A], i: Int): AList[A] =
-        if(i >= num) xs
-        else run(tail(xs), i+1)
+        if (i >= num) xs
+        else run(tail(xs), i + 1)
 
       run(xs, 0)
     }
@@ -49,15 +49,46 @@ class DataStructuresSpec extends AnyFunSpec {
       case Cons(head, tail) => Cons(head, init(tail)) // we need to traverse all the way down, can't do that in constant time
     }
 
-    def foldr[A,B](xs: AList[A], zero: B)(fn: (A,B) => B): B = xs match {
+    def foldr[A, B](xs: AList[A], zero: B)(fn: (A, B) => B): B = xs match {
       case Nil => zero
       case Cons(head, tail) => fn(head, foldr(tail, zero)(fn))
     }
 
     @scala.annotation.tailrec
-    def foldl[A,B](xs: AList[A], zero: B)(fn: (A,B) => B): B = xs match { // tailrec, but reverses the order
+    def foldl[A, B](xs: AList[A], zero: B)(fn: (A, B) => B): B = xs match { // tailrec, but reverses the order
       case Nil => zero
       case Cons(head, tail) => foldl(tail, fn(head, zero))(fn)
+    }
+
+    def map[A, B](xs: AList[A])(f: A => B): AList[B] = xs match {
+      case Nil => AList[B]()
+      case Cons(head, tail) => Cons(f(head), map(tail)(f))
+    }
+
+    def mapTco[A, B](xs: AList[A])(f: A => B): AList[B] = {
+      @scala.annotation.tailrec
+      def run(xs: AList[A], acc: AList[B]): AList[B] = xs match {
+        case Nil => acc
+        case Cons(head, tail) => run(tail, Cons(f(head), acc))
+      }
+
+      run(xs, AList[B]())
+    }
+
+    def filter[A](vs: AList[A])(fn: A => Boolean): AList[A] = vs match {
+      case Nil => Nil
+      case Cons(head, tail) if fn(head) => Cons(head, filter(tail)(fn))
+      case Cons(_, tail)  => filter(tail)(fn)
+    }
+
+    def flatmap[A,B](vs: AList[A])(fn: A => AList[B]): AList[B] = vs match {
+      case Nil => Nil
+      case Cons(head, tail) => append(fn(head), flatmap(tail)(fn))
+    }
+
+    def zip[A](as: AList[A], bs: AList[A])(fn: (A,A) => A): AList[A] = (as, bs) match {
+      case (Cons(a, atail), (Cons(b, btail))) => Cons(fn(a,b), zip(atail,btail)(fn))
+      case (_,_) => Nil
     }
   }
 
@@ -169,6 +200,42 @@ class DataStructuresSpec extends AnyFunSpec {
     }
   }
 
+  it("ex16 17 18 map") {
+    assert(AList.map(AList(1,2,3,4,5))(_ + 1) == AList(2,3,4,5,6))
+    assert(AList.map(AList(1,2,3,4,5))(_.toString) == AList("1", "2", "3", "4", "5"))
 
-//  it("ex") {fail}
+    assert(AList.mapTco(AList(1,2,3,4,5))(_ + 1) == AList(6,5,4,3,2))
+    assert(AList.mapTco(AList(1,2,3,4,5))(_.toString) == AList("5", "4", "3", "2", "1"))
+  }
+
+  it("map in terms of fold") {
+    val fn = (v: Int) => v + 1
+    val g = (v: Int, acc: AList[Int]) => Cons(fn(v), acc)
+    val zero = AList[Int]()
+
+    assert(AList.foldr(AList(1,2,3), zero)(g) == AList(2,3,4))
+  }
+
+  it("ex19 filter") {
+    assert(AList.filter(AList(1,2,3,4,5))(_ % 2 == 0) == AList(2,4))
+  }
+
+  it("ex20 flatmap") {
+    val f = (v: Int) => Cons(v+1, Nil)
+    assert(AList.flatmap(AList(1,2,3,4,5))(f) == AList(2,3,4,5,6))
+    assert(AList.flatmap(AList(1,2,3))(i => AList(i,i)) == AList(1,1,2,2,3,3))
+  }
+
+  it("ex21 filter in terms of flatmap") {
+    val f = (v: Int) =>
+      if (v % 2 == 0) AList(v)
+      else AList()
+
+    assert(AList.flatmap(AList(1,2,3,4,5))(f) == AList(2,4))
+  }
+
+  it("ex22 zip") {
+    assert(AList.zip(AList(1,2,3), AList(4,5,6))(_ + _) == AList(5,7,9))
+    assert(AList.zip(AList(1,2,3), AList(4,5,6,7,9))(_ + _) == AList(5,7,9))
+  }
 }
