@@ -103,4 +103,24 @@ class EitherSpec extends AnyFunSpec {
       assert(traverse(in2)(f) == ELeft("invalid str"))
     }
   }
+
+  it("ex9") {
+    def map2Collected[E, A, B, C](a: => Eithr[E, A], b: => Eithr[E, B])(f: (A, B) => C): Eithr[(Option[E], Option[E]), C] = (a, b) match {
+      case (ARight(av), ARight(bv)) => ARight(f(av, bv))
+      case (ELeft(ea), ARight(_)) => ELeft(Some(ea), None)
+      case (ELeft(ea), ELeft(eb)) => ELeft(Some(ea), Some(eb))
+      case (ARight(_), ELeft(eb)) => ELeft(None, Some(eb))
+    }
+
+    val f: (Int, Int) => Int = _ + _
+    val ok: Eithr[String, Int] = ARight(123)
+    val ok2: Eithr[String, Int] = ARight(987)
+    val bad: Eithr[String, Int] = ELeft("err1")
+    val bad2: Eithr[String, Int] = ELeft("err2")
+
+    assert(map2Collected(ok, ok2)(f) == ARight(1110))
+    assert(map2Collected(ok, bad)(f) == ELeft((None, Some("err1"))))
+    assert(map2Collected(bad, ok2)(f) == ELeft((Some("err1"), None)))
+    assert(map2Collected(bad, bad2)(f) == ELeft((Some("err1"), Some("err2"))))
+  }
 }
