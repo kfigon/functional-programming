@@ -31,4 +31,5 @@ class StateSpec extends AnyFunSpec {
 
       println(res)
     }
+  }
 }
