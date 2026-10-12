@@ -1,9 +1,8 @@
 .PHONY: repl run
 
+# we can remove rlwrap, this is non standard
 repl:
-	sbcl
+	rlwrap sbcl	
 	
 run:
-	sbcl --script $(word 2,$(MAKECMDGOALS))
-%:
-	@:
+	sbcl --script $(FILE)
