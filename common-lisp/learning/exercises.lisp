@@ -65,3 +65,44 @@
 (pp (make-symbol-greeting `alice))
 
 
+(defun safe-first (tab)
+    (if (< (length tab) 1)
+        nil 
+        (first tab)))
+
+(print (safe-first nil))
+(print (safe-first ()))
+(print (safe-first `()))
+(print (safe-first `(1)))
+(print (safe-first `(2 3)))
+(endl)
+
+(defun contains-p (v tab)
+    (if (equal nil (member v tab))
+        nil
+        t))
+(print (contains-p 'c '(a b c)))
+(print (contains-p 'b '(a b c)))
+(print (contains-p 'z '(a b c)))
+(print (contains-p 'a '()))
+(endl)
+
+(defun remove-negatives (tab)
+    (remove-if 
+        (lambda (x) (< x 0))
+        tab))
+
+(print (remove-negatives `(-3 2 -1 5 0)))
+(print (remove-negatives `(3 2 1 5 0)))
+(print (remove-negatives `()))
+(endl)
+
+(defun count-even (tab)
+    (count-if 
+        (lambda (x) (= (mod x 2) 0))
+        tab))
+
+(print (count-even `(1 2 4 7 8)))
+(endl)
+
+()
