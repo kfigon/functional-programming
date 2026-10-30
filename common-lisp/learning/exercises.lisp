@@ -105,4 +105,40 @@
 (print (count-even `(1 2 4 7 8)))
 (endl)
 
-()
+(defun fizzbuzz (num)
+  (loop for x from 1 to num
+    do (print (cond 
+        ((= (mod x 15) 0) "Fizzbuzz")
+        ((= (mod x 3) 0)"Fizz")
+        ((= (mod x 5) 0) "Buzz")
+        (t (format nil "~A" x))))))
+
+(fizzbuzz 30)
+(endl)
+
+(defun sum-list (xs)
+    (let ((sum 0))
+      (dolist (x xs)
+        (setf sum (+ sum x)))
+      sum))
+
+(print (sum-list `(1 2 3 4)))
+(print (sum-list nil))
+(endl)
+
+(defun range-list (num)
+    (loop for x from 0 below num
+        collect x))
+
+(print (range-list 5))
+(endl)
+
+(defun my-max (xs)
+    (let ((mx 0))
+         (dolist (x xs)
+            (when (> x mx)
+                (setf mx x)))
+          mx))
+(print (my-max nil))
+(print (my-max `(1 2 32 4 5)))
+(endl)
