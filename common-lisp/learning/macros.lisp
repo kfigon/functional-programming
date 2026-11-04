@@ -77,6 +77,7 @@
 
 ; Use gensym for variables that your macro introduces internally 
 ; and that aren't intended to be visible to the caller.
+; we can also evaluate once
 (defmacro my-add-ten (expression)
     `(let ((tmp 10))
         (+ tmp ,expression)))
@@ -87,6 +88,7 @@
     (print (my-add-ten tmp))) ; this is 20, because tmp 100 is shadowed!
 
 (defmacro my-add-ten2 (expression)
+; (with-gensyms (result) as a shortcut
   (let ((tmp (gensym)))
     `(let ((,tmp 10))
         (+ ,tmp ,expression))))
