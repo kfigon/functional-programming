@@ -13,3 +13,8 @@ in repl, we can use function to refresh definitions
 (load "filename")
 (load (compile-file "filename"))
 ```
+
+# todos
+* [ ] macros
+* [ ] conditions
+* [ ] packages
