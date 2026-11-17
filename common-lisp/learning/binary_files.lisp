@@ -41,3 +41,9 @@
             (setf size          (read-id3-encoded-size in))
             (setf frames        (read-id3-frames in :tag-size size)))
         tag))
+
+; write all functions, mostly same, but lot of boilerplate
+; description took 4 lines, code is already 40 and not finished.
+
+;----------------- lisp way!
+; 
