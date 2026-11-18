@@ -18,3 +18,4 @@ in repl, we can use function to refresh definitions
 * [ ] macros
 * [ ] conditions
 * [ ] html library
+* [ ] testing framework
