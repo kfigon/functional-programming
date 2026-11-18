@@ -17,4 +17,4 @@ in repl, we can use function to refresh definitions
 # todos
 * [ ] macros
 * [ ] conditions
-* [ ] packages
+* [ ] html library
