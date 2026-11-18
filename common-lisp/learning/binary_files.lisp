@@ -1,3 +1,13 @@
+(defpackage :binary-files-manual
+    (:use cl))
+
+(defpackage :binary-files-improved
+    (:use cl))
+
+
+; manual implementation without lisp magic
+(in-package :binary-files-manual)
+
 ; big endian
 (defun read-u8 (in) (ldb (byte 8 0) (read-byte in)))
 
@@ -47,3 +57,46 @@
 
 ;----------------- lisp way!
 ; 
+
+; string as keyword
+(defun as-keyword (sym) (intern (string sym) :keyword))
+
+; generate this: (revision      :initarg :revision      :accessor revision)
+(defun slot->defclass-slot (spec)
+    (let ((name (first spec))
+        `(,name :initarg ,(as-keyword name) :accessor ,name))))
+
+; (defmacro define-binary-class (name slots)
+;     `(defclass ,name ()
+;         ,(mapcar #'slot->defclass-slot slots)))
+
+; now functions. Instead of generating bunch of functions
+; #{write/read}-#{type} that will consume the stream,
+; we can define generic method read-value that will specialize on the type
+
+(defun mklist (x) (if (listp x) x (list x)))
+
+(defun normalize-slot-spec (spec)
+    (list (first spec) (mklist (second spec))))
+
+(defun slot->read-value (spec stream)
+    (destructuring-bind (name (type &rest args)) (normalize-slot-spec spec)
+        `(setf ,name (read-value ',type ,stream ,@args))))
+
+
+(defgeneric read-value (type stream &key))
+
+(defmacro define-binary-class (name slots)
+  (let ((typevar   (gensym))
+        (objectvar (gensym))
+        (streamvar (gensym)))
+
+    `(progn
+        (defclass ,name ()
+            ,(mapcar #'slot->defclass-slot slots))
+
+        (defmethod read-value ((,typevar (eql ',name)) ,streamvar &key)
+           (let ((,objectvar (make-instance ',name)))
+                (with-slots ,(mapcar #'first slots) ,objectvar 
+                  ,@(mapcar (lambda (x) (slot->read-value x streamvar)) slots))
+                ,objectvar)))))

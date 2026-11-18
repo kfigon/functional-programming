@@ -44,3 +44,15 @@
 
 (defmethod interact ((a dog) (b dog))
   (format t "Dogs play together.~%"))
+
+
+; typeclass pattern:
+(defgeneric process (val))
+
+(defmethod process ((val integer)) (format t "got integer ~a~%" val))
+(defmethod process ((val string)) (format t "got string ~a~%" val))
+; type boolean nie istnieje dla t i nil, mozna inaczej
+(defmethod process ((val (eql t))) (format t "got boolean ~a~%" val))
+(defmethod process ((val (eql nil))) (format t "got boolean ~a~%" val))
+(defmethod process ((val dog)) (format t "got a dog! ~a~%" val))
+(defmethod process ((val t)) (format t "got something else! ~a~%" val))
