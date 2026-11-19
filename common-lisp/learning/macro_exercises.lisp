@@ -50,5 +50,25 @@
 
 ; level 2
 
+; cnt has to be known at compile time, this is a literal, not expression.
+; that's why we don't eval ,cnt
 (defmacro repeat-times (cnt &body body)
     `(progn ,@(loop repeat cnt append body)))
+
+(defmacro set-if (condition val assignment)
+    `(when ,condition 
+           (setf ,val ,assignment)))
+
+(defmacro swap (a b)
+    (let ((temp (gensym)))
+        `(let ((,temp ,a))
+           (progn 
+            (setf ,a ,b)
+            (setf ,b ,temp)))))
+
+(defmacro with-file ((stream file) &body body)
+  ; no need for gensym, with-open-file handles lexical scoping
+    `(with-open-file (,stream ,file :direction :output :if-exists :supersede)
+       (progn ,@body)))
+
+; level 3
