@@ -72,3 +72,8 @@
        (progn ,@body)))
 
 ; level 3
+(defmacro in-range (val low high &rest params)
+    (let ((low-fn  (if (member :inclusive-low params) #'>= #'>))
+          (high-fn (if (member :inclusive-high params) #'<= #'<)))
+        `(and (funcall ,low-fn ,val ,low) 
+              (funcall ,high-fn ,val ,high))))
