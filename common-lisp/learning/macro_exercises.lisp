@@ -77,3 +77,18 @@
           (high-fn (if (member :inclusive-high params) #'<= #'<)))
         `(and (funcall ,low-fn ,val ,low) 
               (funcall ,high-fn ,val ,high))))
+
+; 12
+
+; anaphoric if
+(defmacro aif (forms &body body)
+    `(let ((it ,forms))
+       (when it
+            (progn ,@body))))
+
+; 13
+(defmacro with-temp ((var init) &body body)
+    `(let ((,var ,init))
+        (progn ,@body)))
+
+; 14
