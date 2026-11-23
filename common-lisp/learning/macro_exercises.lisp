@@ -92,3 +92,14 @@
         (progn ,@body)))
 
 ; 14
+
+(defmacro toggle (name)
+    `(if ,name 
+        (progn 
+            (setf ,name nil)
+            nil)
+        (progn (setf ,name t)
+            t)))
+
+; 15..
+; 16
